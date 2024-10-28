@@ -44,9 +44,9 @@ export function ProductsTable({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Camichi te amo muchooooo ❤️</CardTitle>
+        <CardTitle>Colecciones</CardTitle>
         <CardDescription>
-          Manage your products and view their sales performance.
+          Aquí puedes ver colecciones y clasificarlas en las cartas que quieres y que tienes.
         </CardDescription>
       </CardHeader>
       <CardContent>
