@@ -44,7 +44,7 @@ export function ProductsTable({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Products</CardTitle>
+        <CardTitle>Camichi te amo muchooooo ❤️</CardTitle>
         <CardDescription>
           Manage your products and view their sales performance.
         </CardDescription>

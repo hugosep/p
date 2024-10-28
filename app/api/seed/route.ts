@@ -3,16 +3,12 @@ import { db, products } from 'lib/db';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  return Response.json({
-    message: 'Uncomment to seed data after DB is set up.'
-  });
-
   await db.insert(products).values([
     {
       id: 1,
       imageUrl:
         'https://uwja77bygk2kgfqe.public.blob.vercel-storage.com/smartphone-gaPvyZW6aww0IhD3dOpaU6gBGILtcJ.webp',
-      name: 'Smartphone X Pro',
+      name: 'Camichi te amo <3',
       status: 'active',
       price: '999.00',
       stock: 150,
