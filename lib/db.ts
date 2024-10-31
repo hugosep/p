@@ -21,7 +21,7 @@ export const collections = pgTable('collections', {
   name: text('name').notNull(),
   type: typeEnum('type').notNull(),
   user_id: integer('user_id').notNull(),
-  numberOf: integer('number_of').notNull()
+  numberOf: integer('numberof').notNull()
 });
 
 export type SelectCollection = typeof collections.$inferSelect;
