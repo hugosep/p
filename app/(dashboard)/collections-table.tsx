@@ -15,23 +15,23 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import { Product } from './product';
-import { SelectProduct } from '@/lib/db';
+import { Collection } from './collection';
+import { SelectCollection } from '@/lib/db';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export function ProductsTable({
-  products,
+export function CollectionsTable({
+  collections,
   offset,
-  totalProducts
+  totalCollections
 }: {
-  products: SelectProduct[];
+  collections: SelectCollection[];
   offset: number;
-  totalProducts: number;
+  totalCollections: number;
 }) {
   let router = useRouter();
-  let productsPerPage = 5;
+  let collectionsPerPage = 5;
 
   function prevPage() {
     router.back();
@@ -69,8 +69,8 @@ export function ProductsTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product) => (
-              <Product key={product.id} product={product} />
+            {collections.map((collection) => (
+              <Collection key={collection.id} collection={collection} />
             ))}
           </TableBody>
         </Table>
@@ -80,9 +80,9 @@ export function ProductsTable({
           <div className="text-xs text-muted-foreground">
             Showing{' '}
             <strong>
-              {Math.max(0, Math.min(offset - productsPerPage, totalProducts) + 1)}-{offset}
+              {Math.max(0, Math.min(offset - collectionsPerPage, totalCollections) + 1)}-{offset}
             </strong>{' '}
-            of <strong>{totalProducts}</strong> products
+            of <strong>{totalCollections}</strong> collections
           </div>
           <div className="flex">
             <Button
@@ -90,7 +90,7 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="submit"
-              disabled={offset === productsPerPage}
+              disabled={offset === collectionsPerPage}
             >
               <ChevronLeft className="mr-2 h-4 w-4" />
               Prev
@@ -100,7 +100,7 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="submit"
-              disabled={offset + productsPerPage > totalProducts}
+              disabled={offset + collectionsPerPage > totalCollections}
             >
               Next
               <ChevronRight className="ml-2 h-4 w-4" />

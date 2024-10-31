@@ -1,10 +1,10 @@
 'use server';
 
-import { deleteProductById } from '@/lib/db';
+import { deleteCollectionById } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 
-export async function deleteProduct(formData: FormData) {
+export async function deleteCollection(formData: FormData) {
   let id = Number(formData.get('id'));
-  await deleteProductById(id);
+  await deleteCollectionById(id);
   revalidatePath('/');
 }

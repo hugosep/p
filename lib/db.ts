@@ -5,9 +5,7 @@ import { drizzle } from 'drizzle-orm/neon-http';
 import {
   pgTable,
   text,
-  numeric,
   integer,
-  timestamp,
   pgEnum,
   serial
 } from 'drizzle-orm/pg-core';
@@ -16,57 +14,55 @@ import { createInsertSchema } from 'drizzle-zod';
 
 export const db = drizzle(neon(process.env.POSTGRES_URL!));
 
-export const statusEnum = pgEnum('status', ['active', 'inactive', 'archived']);
+export const typeEnum = pgEnum('type', ['want', 'have']);
 
-export const products = pgTable('products', {
+export const collections = pgTable('collections', {
   id: serial('id').primaryKey(),
-  imageUrl: text('image_url').notNull(),
   name: text('name').notNull(),
-  status: statusEnum('status').notNull(),
-  price: numeric('price', { precision: 10, scale: 2 }).notNull(),
-  stock: integer('stock').notNull(),
-  availableAt: timestamp('available_at').notNull()
+  type: typeEnum('type').notNull(),
+  user_id: integer('user_id').notNull(),
+  numberOf: integer('number_of').notNull()
 });
 
-export type SelectProduct = typeof products.$inferSelect;
-export const insertProductSchema = createInsertSchema(products);
+export type SelectCollection = typeof collections.$inferSelect;
+export const insertCollectionSchema = createInsertSchema(collections);
 
-export async function getProducts(
+export async function getCollections(
   search: string,
   offset: number
 ): Promise<{
-  products: SelectProduct[];
+  collections: SelectCollection[];
   newOffset: number | null;
-  totalProducts: number;
+  totalCollections: number;
 }> {
   // Always search the full table, not per page
   if (search) {
     return {
-      products: await db
+      collections: await db
         .select()
-        .from(products)
-        .where(ilike(products.name, `%${search}%`))
+        .from(collections)
+        .where(ilike(collections.name, `%${search}%`))
         .limit(1000),
       newOffset: null,
-      totalProducts: 0
+      totalCollections: 0
     };
   }
 
   if (offset === null) {
-    return { products: [], newOffset: null, totalProducts: 0 };
+    return { collections: [], newOffset: null, totalCollections: 0 };
   }
 
-  let totalProducts = await db.select({ count: count() }).from(products);
-  let moreProducts = await db.select().from(products).limit(5).offset(offset);
-  let newOffset = moreProducts.length >= 5 ? offset + 5 : null;
+  let totalCollections = await db.select({ count: count() }).from(collections);
+  let moreCollections = await db.select().from(collections).limit(5).offset(offset);
+  let newOffset = moreCollections.length >= 5 ? offset + 5 : null;
 
   return {
-    products: moreProducts,
+    collections: moreCollections,
     newOffset,
-    totalProducts: totalProducts[0].count
+    totalCollections: totalCollections[0].count
   };
 }
 
-export async function deleteProductById(id: number) {
-  await db.delete(products).where(eq(products.id, id));
+export async function deleteCollectionById(id: number) {
+  await db.delete(collections).where(eq(collections.id, id));
 }
